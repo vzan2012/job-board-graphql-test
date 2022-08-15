@@ -33,6 +33,10 @@ const getCompanyQuery = gql`
       id
       name
       description
+      jobs {
+        id
+        title
+      }
     }
   }
 `;
