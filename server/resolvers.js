@@ -1,4 +1,4 @@
-import { Job } from "./db.js";
+import { Job, Company } from "./db.js";
 
 export const resolvers = {
   Query: {
@@ -9,5 +9,9 @@ export const resolvers = {
     //   { id: "Job:3", title: "Job title3", description: "Job Desc3" },
     // ],
     jobs: () => Job.findAll(),
+  },
+
+  Job: {
+    company: async (job) => await Company.findById(job.companyId),
   },
 };

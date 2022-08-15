@@ -4,14 +4,14 @@ import { expressjwt } from "express-jwt";
 import jwt from "jsonwebtoken";
 import { User } from "./db.js";
 
+import "dotenv/config";
+
 import { ApolloServer } from "apollo-server-express";
-
 import { readFile } from "fs/promises";
-
 import { resolvers } from "./resolvers.js";
 
-const PORT = 9000;
-const JWT_SECRET = Buffer.from("Zn8Q5tyZ/G1MHltc4F/gTkVJMlrbKiZt", "base64");
+const PORT = process.env.PORT;
+const JWT_SECRET = Buffer.from(process.env.JWT_SECRET, "base64");
 
 const app = express();
 app.use(
