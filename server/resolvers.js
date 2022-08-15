@@ -10,7 +10,9 @@ export const resolvers = {
     // ],
 
     // Return the job by id
-    job: (root, { id }) => Job.findById(id),
+    job: (_root, { id }) => Job.findById(id),
+
+    company: (_root, { id }) => Company.findById(id),
 
     // Returns all the jobs
     jobs: () => Job.findAll(),
