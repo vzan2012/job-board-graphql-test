@@ -18,6 +18,11 @@ export const resolvers = {
     jobs: () => Job.findAll(),
   },
 
+  Mutation: {
+    // Two parameters - root and the args is destructured
+    createJob: (_root, { input }) => Job.create(input),
+  },
+
   Job: {
     company: async (job) => await Company.findById(job.companyId),
   },

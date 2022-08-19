@@ -1,3 +1,4 @@
+# Top Level Types
 type Query {
   # greeting: String
   job(id: ID!): Job
@@ -5,6 +6,11 @@ type Query {
   jobs: [Job!]
 }
 
+type Mutation {
+  createJob(input: CreateJobInput!): Job
+}
+
+# Job and Company Models
 type Job {
   id: ID!
   company: Company!
@@ -17,4 +23,11 @@ type Company {
   name: String!
   description: String
   jobs: [Job!]
+}
+
+# Input Types
+input CreateJobInput {
+  title: String!
+  companyId: ID!
+  description: String
 }
