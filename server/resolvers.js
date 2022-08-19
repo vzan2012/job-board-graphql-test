@@ -22,6 +22,14 @@ export const resolvers = {
     // Two parameters - root and the args is destructured
     createJob: (_root, { input }) => Job.create(input),
     deleteJob: (_root, { id }) => Job.delete(id),
+    updateJob: async (_root, { input }) => {
+      const jobExists = await Job.findById(input.id);
+      if (jobExists) {
+        return Job.update(input);
+      } else {
+        throw new Error("No Job ID found");
+      }
+    },
   },
 
   Job: {
