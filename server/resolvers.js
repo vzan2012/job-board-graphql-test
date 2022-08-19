@@ -21,6 +21,7 @@ export const resolvers = {
   Mutation: {
     // Two parameters - root and the args is destructured
     createJob: (_root, { input }) => Job.create(input),
+    deleteJob: (_root, { id }) => Job.delete(id),
   },
 
   Job: {
