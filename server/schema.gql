@@ -30,7 +30,6 @@ type Company {
 # Input Types
 input CreateJobInput {
   title: String!
-  companyId: ID!
   description: String
 }
 

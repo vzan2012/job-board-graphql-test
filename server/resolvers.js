@@ -1,4 +1,4 @@
-import { Job, Company } from "./db.js";
+import { Job, Company, User } from "./db.js";
 
 export const resolvers = {
   Query: {
@@ -20,7 +20,10 @@ export const resolvers = {
 
   Mutation: {
     // Two parameters - root and the args is destructured
-    createJob: (_root, { input }) => Job.create(input),
+    createJob: async (_root, { input }, { user }) => {
+      if (!user) throw new Error("Unauthorized");
+      return Job.create({ ...input, companyId: user.companyId });
+    },
     deleteJob: (_root, { id }) => Job.delete(id),
     updateJob: async (_root, { input }) => {
       const jobExists = await Job.findById(input.id);
