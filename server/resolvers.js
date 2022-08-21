@@ -1,5 +1,11 @@
 import { Job, Company, User } from "./db.js";
 
+const rejectIf = (condition) => {
+  if (condition) {
+    throw new Error("Unauthorized");
+  }
+};
+
 export const resolvers = {
   Query: {
     // greeting: () => `Hello !!!`,
@@ -21,14 +27,21 @@ export const resolvers = {
   Mutation: {
     // Two parameters - root and the args is destructured
     createJob: async (_root, { input }, { user }) => {
-      if (!user) throw new Error("Unauthorized");
+      rejectIf(!user);
       return Job.create({ ...input, companyId: user.companyId });
     },
-    deleteJob: (_root, { id }) => Job.delete(id),
-    updateJob: async (_root, { input }) => {
+    deleteJob: async (_root, { id }, { user }) => {
+      rejectIf(!user);
+      const job = await Job.findById(id);
+      rejectIf(user.companyId !== job.companyId);
+
+      return Job.delete(id);
+    },
+    updateJob: async (_root, { input }, { user }) => {
+      rejectIf(!user);
       const jobExists = await Job.findById(input.id);
-      if (jobExists) {
-        return Job.update(input);
+      if (jobExists && user.companyId === jobExists.companyId) {
+        return Job.update({ ...input, companyId: user.companyId });
       } else {
         throw new Error("No Job ID found");
       }
